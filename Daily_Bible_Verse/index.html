@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bible Verse</title>
+  <style>
+    body {
+      font-family: Georgia, serif;
+      background: #f5f0e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      color: #5a3e1b;
+      margin-bottom: 24px;
+    }
+
+    /* Verse text */
+    #verseText {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: #3b2a14;
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+
+    /* Bible reference */
+    #verseRef {
+      font-size: 0.9rem;
+      color: #7a5c30;
+      margin-bottom: 28px;
+    }
+
+    /* Buttons */
+    button {
+      padding: 8px 18px;
+      margin: 4px;
+      border: 1px solid #7a5c30;
+      border-radius: 6px;
+      background: #ffffff;
+      color: #5a3e1b;
+      font-family: Georgia, serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #f0e4cc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>✝ Daily Bible Verse</h1>
+
+    <!-- Verse text updated by JS -->
+    <p id="verseText">"For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future."</p>
+    <p id="verseRef">— Jeremiah 29:11</p>
+
+    <!-- Buttons -->
+    <button id="btnNext">Next Verse</button>
+    <button id="btnColor">Change Color</button>
+    <button id="btnSize">Bigger Text</button>
+
+  </div>
+
+  <script>
+    // Array of Bible verses
+    var verses = [
+      {
+        text: '"For I know the plans I have for you," declares the Lord, "plans to prosper you and not to harm you, plans to give you hope and a future."',
+        ref:  '— Jeremiah 29:11'
+      },
+      {
+        text: '"I can do all things through Christ who strengthens me."',
+        ref:  '— Philippians 4:13'
+      },
+      {
+        text: '"The Lord is my shepherd; I shall not want."',
+        ref:  '— Psalm 23:1'
+      },
+      {
+        text: '"For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life."',
+        ref:  '— John 3:16'
+      },
+      {
+        text: '"Trust in the Lord with all your heart and lean not on your own understanding."',
+        ref:  '— Proverbs 3:5'
+      },
+      {
+        text: '"Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go."',
+        ref:  '— Joshua 1:9'
+      }
+    ];
+
+    // Colors to cycle through
+    var colors     = ['#3b2a14', '#1a5276', '#145a32', '#6e2f7a', '#7b3f00'];
+    var colorIndex = 0;
+
+    // Current verse index
+    var verseIndex = 0;
+
+    // Current font size
+    var fontSize = 18;
+
+    // DOM references
+    var verseText = document.getElementById('verseText');
+    var verseRef  = document.getElementById('verseRef');
+    var btnNext   = document.getElementById('btnNext');
+    var btnColor  = document.getElementById('btnColor');
+    var btnSize   = document.getElementById('btnSize');
+
+    // BUTTON 1: Next Verse
+    // Goes to the next verse in the array and updates the page
+    btnNext.addEventListener('click', function() {
+      verseIndex = verseIndex + 1;
+
+      if (verseIndex >= verses.length) {
+        verseIndex = 0;
+      }
+
+      verseText.textContent = verses[verseIndex].text;
+      verseRef.textContent  = verses[verseIndex].ref;
+    });
+
+    // BUTTON 2: Change Color
+    // Cycles through the colors array and applies it to the verse text
+    btnColor.addEventListener('click', function() {
+      colorIndex = colorIndex + 1;
+
+      if (colorIndex >= colors.length) {
+        colorIndex = 0;
+      }
+
+      verseText.style.color = colors[colorIndex];
+    });
+
+    // BUTTON 3: Bigger Text
+    // Increases the font size by 2px each click, resets after 28px
+    btnSize.addEventListener('click', function() {
+      fontSize = fontSize + 2;
+
+      if (fontSize > 28) {
+        fontSize = 18;
+      }
+
+      verseText.style.fontSize = fontSize + 'px';
+    });
+  </script>
+
+</body>
+</html>
