@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Bucket List Banner</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .banner {
+      background: #1a1a2e;
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 40px 36px;
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .banner h1 {
+      font-size: 2rem;
+      color: #e0c97f;
+      margin-bottom: 8px;
+    }
+
+    .banner p {
+      color: #aac4e0;
+      margin-bottom: 24px;
+    }
+
+    /* List styles */
+    #bucketList {
+      list-style: none;
+      text-align: left;
+      margin-bottom: 24px;
+      padding: 0;
+    }
+
+    #bucketList li {
+      background: rgba(255,255,255,0.08);
+      border-left: 4px solid #e0c97f;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      font-size: 1rem;
+    }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"] {
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.95rem;
+      flex: 1 1 180px;
+    }
+
+    button {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #btnAdd   { background: #e0c97f; color: #1a1a2e; }
+    #btnFont  { background: #5468ff; color: #ffffff; }
+    #btnBold  { background: #e05c5c; color: #ffffff; }
+  </style>
+</head>
+<body>
+
+  <div class="banner">
+    <h1>✦ My Bucket List ✦</h1>
+    <p>Things I want to explore in my lifetime</p>
+
+    <!-- The list of items -->
+    <ul id="bucketList">
+      <li>Travel across Southeast Asia</li>
+      <li>Hike a mountain</li>
+      <li>Learn to play the guitar</li>
+    </ul>
+
+    <!-- Input and the three required buttons -->
+    <div class="controls">
+      <input type="text" id="newItemInput" placeholder="Type a new item..." />
+      <button id="btnAdd">Add Item</button>
+      <button id="btnFont">Change Font</button>
+      <button id="btnBold">Make Bold</button>
+    </div>
+  </div>
+
+  <script>
+    // Get references to the elements we need
+    var list        = document.getElementById('bucketList');
+    var input       = document.getElementById('newItemInput');
+    var btnAdd      = document.getElementById('btnAdd');
+    var btnFont     = document.getElementById('btnFont');
+    var btnBold     = document.getElementById('btnBold');
+
+    // Font families to cycle through when the user clicks Change Font
+    var fonts     = ['Arial', 'Georgia', 'Courier New', 'Verdana'];
+    var fontIndex = 0; // tracks the currently active font
+
+    // ── BUTTON 1: Add Item ──────────────────────────────
+    // Reads the input field value and appends a new <li> to the list
+    btnAdd.addEventListener('click', function() {
+      var text = input.value; // get what the user typed
+
+      if (text === '') {
+        alert('Please type something first!');
+        return;
+      }
+
+      // Create a new <li> element and set its text
+      var newItem = document.createElement('li');
+      newItem.textContent = text;
+
+      // Append the new item to the <ul>
+      list.appendChild(newItem);
+
+      // Clear the input so the user can type the next item
+      input.value = '';
+    });
+
+    // ── BUTTON 2: Change Font ───────────────────────────
+    // Cycles to the next font in the fonts array and applies
+    // it to every <li> currently in the list
+    btnFont.addEventListener('click', function() {
+      // Advance the index; reset to 0 when we reach the end
+      fontIndex = fontIndex + 1;
+      if (fontIndex >= fonts.length) {
+        fontIndex = 0;
+      }
+
+      // Apply the new font to all list items
+      var items = list.getElementsByTagName('li');
+      for (var i = 0; i < items.length; i++) {
+        items[i].style.fontFamily = fonts[fontIndex];
+      }
+    });
+
+    // ── BUTTON 3: Make Bold ─────────────────────────────
+    // Sets font-weight to bold on every <li> in the list
+    btnBold.addEventListener('click', function() {
+      var items = list.getElementsByTagName('li');
+      for (var i = 0; i < items.length; i++) {
+        items[i].style.fontWeight = 'bold';
+      }
+    });
+  </script>
+
+</body>
+</html>
