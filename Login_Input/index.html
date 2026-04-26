@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Username & Password Input</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #eef2f7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Card wrapper */
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+      width: 100%;
+      max-width: 400px;
+      padding: 40px 32px;
+    }
+
+    /* Heading */
+    h1 {
+      font-size: 1.5rem;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #6b7280;
+      font-size: 0.9rem;
+      margin-bottom: 28px;
+    }
+
+    /* Form groups */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    input:focus {
+      border-color: #3a5bd9;
+    }
+
+    /* Error and success messages below each field */
+    .error-msg {
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    .error-msg.error   { color: #e05c5c; }
+    .error-msg.success { color: #16a34a; }
+
+    /* Buttons */
+    #btnLogin {
+      width: 100%;
+      padding: 12px;
+      background: #3a5bd9;
+      color: #ffffff;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    #btnLogin:hover {
+      background: #2d4ab5;
+    }
+
+    #btnClear {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      color: #6b7280;
+      font-size: 0.9rem;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #btnClear:hover {
+      background: #f3f4f6;
+    }
+
+    /* Final login result message */
+    #loginMessage {
+      text-align: center;
+      font-size: 0.95rem;
+      margin-top: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <h1>Sign In</h1>
+    <p class="subtitle">Enter your username and password</p>
+
+    <!-- Username field -->
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username" />
+      <p class="error-msg" id="usernameError"></p>
+    </div>
+
+    <!-- Password field -->
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" />
+      <p class="error-msg" id="passwordError"></p>
+    </div>
+
+    <!-- Login button -->
+    <button id="btnLogin">Login</button>
+
+    <!-- Clear button -->
+    <button id="btnClear">Clear Fields</button>
+
+    <!-- Result message -->
+    <p id="loginMessage"></p>
+
+  </div>
+
+  <script>
+    // ── DOM references ──────────────────────────────────
+    var usernameInput = document.getElementById('username');
+    var passwordInput = document.getElementById('password');
+    var btnLogin      = document.getElementById('btnLogin');
+    var btnClear      = document.getElementById('btnClear');
+    var usernameError = document.getElementById('usernameError');
+    var passwordError = document.getElementById('passwordError');
+    var loginMessage  = document.getElementById('loginMessage');
+
+    // ── BUTTON 1: Login ─────────────────────────────────
+    btnLogin.addEventListener('click', function() {
+      var username = usernameInput.value;
+      var password = passwordInput.value;
+
+      console.log('--- Login Attempt ---');
+      console.log('Username entered: ' + username);
+      console.log('Password entered: ' + password);
+
+      // Clear previous messages
+      usernameError.textContent = '';
+      usernameError.className   = 'error-msg';
+      passwordError.textContent = '';
+      passwordError.className   = 'error-msg';
+      loginMessage.textContent  = '';
+
+      // Track if both fields pass validation
+      var isValid = true;
+
+      // ── Validate Username ──
+      // Username must not be empty
+      if (username === '') {
+        usernameError.textContent = 'Please enter your username.';
+        usernameError.className   = 'error-msg error';
+        console.log('Username validation FAILED: field is empty');
+        isValid = false;
+      } else {
+        console.log('Username validation PASSED');
+      }
+
+      // ── Validate Password ──
+      // Rule 1: must not be empty
+      if (password === '') {
+        passwordError.textContent = 'Please enter your password.';
+        passwordError.className   = 'error-msg error';
+        console.log('Password validation FAILED: field is empty');
+        isValid = false;
+      }
+      // Rule 2: must be at least 8 characters long
+      else if (password.length < 8) {
+        passwordError.textContent = 'Password must be at least 8 characters.';
+        passwordError.className   = 'error-msg error';
+        console.log('Password validation FAILED: less than 8 characters (length: ' + password.length + ')');
+        isValid = false;
+      }
+      // Rule 3: must contain at least 1 uppercase letter
+      else if (password === password.toLowerCase()) {
+        passwordError.textContent = 'Password must contain at least 1 uppercase letter.';
+        passwordError.className   = 'error-msg error';
+        console.log('Password validation FAILED: no uppercase letter found');
+        isValid = false;
+      }
+      // Rule 4: must contain at least 1 lowercase letter
+      else if (password === password.toUpperCase()) {
+        passwordError.textContent = 'Password must contain at least 1 lowercase letter.';
+        passwordError.className   = 'error-msg error';
+        console.log('Password validation FAILED: no lowercase letter found');
+        isValid = false;
+      }
+      // All rules passed
+      else {
+        console.log('Password validation PASSED');
+      }
+
+      // ── Result ──
+      if (isValid) {
+        loginMessage.style.color  = 'green';
+        loginMessage.textContent  = 'Welcome, ' + username + '!';
+        console.log('Login SUCCESS: Welcome, ' + username + '!');
+      } else {
+        console.log('Login FAILED: fix the errors above');
+      }
+
+      console.log('---------------------');
+    });
+
+    // ── BUTTON 2: Clear Fields ──────────────────────────
+    // Clears both input fields and all messages
+    btnClear.addEventListener('click', function() {
+      usernameInput.value = '';
+      passwordInput.value = '';
+
+      usernameError.textContent = '';
+      passwordError.textContent = '';
+      loginMessage.textContent  = '';
+
+      console.log('Fields cleared');
+    });
+  </script>
+
+</body>
+</html>
